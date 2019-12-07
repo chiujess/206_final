@@ -1,5 +1,6 @@
 import cassiopeia as cass
 import sqlite3
+import random
 
 cass.set_riot_api_key('RGAPI-ab902989-a52d-4c35-8a7d-7b4233a166e3')
 cass.set_default_region('NA')
@@ -333,4 +334,21 @@ f = open('final_champ_dictionary.txt', 'w')
 f.write(str(final_champ_dictionary))
 f.close()
 
-conn.commit()
+def getleague(damage, defense, health):
+    champ_dis_list = []
+    for champ in final_champ_dictionary:
+        a = final_champ_dictionary[champ]['damage']
+        d = final_champ_dictionary[champ]['defense']
+        h = final_champ_dictionary[champ]['health']
+        dis = (damage-a)**2+(defense-a)**2+(health-h)**2
+        champ_dis_list.append((champ, dis))
+    sort_champ_dis_list = sorted(champ_dis_list, key=lambda x: x[1])
+    choice_list = []
+    min_dis = sort_champ_dis_list[0][1]
+    for champ in sort_champ_dis_list:
+        if champ[1] == min_dis:
+            choice_list.append(champ[0])
+    final_champion = random.choice(choice_list)
+    return final_champion
+    
+
