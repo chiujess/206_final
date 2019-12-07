@@ -332,3 +332,5 @@ print(final_champ_dictionary)
 f = open('final_champ_dictionary.txt', 'w')
 f.write(str(final_champ_dictionary))
 f.close()
+
+conn.commit()
