@@ -3,6 +3,8 @@ import json
 import sqlite3
 import pandas as pd
 import seaborn as sns
+import operator
+import random
 
 def setUpDatabase():
     conn = sqlite3.connect("pokemon.db")
@@ -155,7 +157,30 @@ def assignTier(cur, conn, damage_stats, defense_stats, health_stats):
         tier_dict[name] = {"damage": damage_tier, "defense": defense_tier, "health": health_tier}
         cur.execute("INSERT INTO Poke_Tier (name, damage, health, defense) VALUES (?,?,?,?)", (name, damage_tier, health_tier, defense_tier))
     conn.commit()
-    return tier_dict  
+    return tier_dict
+
+def getPokemon(damage, defense, health, tier_dict):
+    # Get each pokemon from dictionary - [name, damage, defense, health]
+    # Create a dictionary that contains the distance between each pokemon and user input - dict = {pokemon_name: distance}
+    # Sort the dictionary by distance
+    # Find all pokemon with the same least distance output as list
+    # import random, pick a random one from the list and return
+    distance_dict = {}
+    for name in tier_dict.keys():
+        dis = (tier_dict[name]["damage"] - damage)**2 + (tier_dict[name]["defense"] - defense)**2 + (tier[name]["health"] - health)**2
+        distance_dict[name] = dis
+    distance_sorted = sorted(distance_dict.items(), key=operator.itemgetter(1))
+    randomized_list = []
+    cur_dis = distance_sorted[0][1]
+    for i in range(len(distance_sorted)):
+        if(distance_sorted[i][1] == cur_dis):
+            randomized_list.append(distance_sorted[i])
+        else:
+            break
+    pokemon = random.choice(randomized_list)
+    return pokemon[0]
+    
+    
 
 def main():
     cur, conn = setUpDatabase()
