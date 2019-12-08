@@ -340,7 +340,7 @@ def getleague(damage, defense, health):
         a = final_champ_dictionary[champ]['damage']
         d = final_champ_dictionary[champ]['defense']
         h = final_champ_dictionary[champ]['health']
-        dis = (damage-a)**2+(defense-a)**2+(health-h)**2
+        dis = (damage-a)**2+(defense-d)**2+(health-h)**2
         champ_dis_list.append((champ, dis))
     sort_champ_dis_list = sorted(champ_dis_list, key=lambda x: x[1])
     choice_list = []
@@ -350,5 +350,8 @@ def getleague(damage, defense, health):
             choice_list.append(champ[0])
     final_champion = random.choice(choice_list)
     return final_champion
+
+print(getleague(3,3,4))
+print(getleague(3,3,4))
     
 
