@@ -6,7 +6,7 @@ import operator
 import random
 
 heroes = []
-num_heroes = 500
+num_heroes = 300
 
 for i in range(1, num_heroes+1):
     url = ('https://superheroapi.com/api/2550354465178834/{}/powerstats'.format(i))

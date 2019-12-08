@@ -167,7 +167,7 @@ def getPokemon(damage, defense, health, tier_dict):
     # import random, pick a random one from the list and return
     distance_dict = {}
     for name in tier_dict.keys():
-        dis = (tier_dict[name]["damage"] - damage)**2 + (tier_dict[name]["defense"] - defense)**2 + (tier[name]["health"] - health)**2
+        dis = (tier_dict[name]["damage"] - damage)**2 + (tier_dict[name]["defense"] - defense)**2 + (tier_dict[name]["health"] - health)**2
         distance_dict[name] = dis
     distance_sorted = sorted(distance_dict.items(), key=operator.itemgetter(1))
     randomized_list = []
