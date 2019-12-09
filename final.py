@@ -67,9 +67,7 @@ def createDataFrame():
     poke_df = pd.DataFrame(poke_list, columns=["name", "damage", "defense", "health"])
     return poke_df
 
-def drawBoxPlot(data):
-    boxplot = sns.boxplot(x=data)
-    sns.plt.show()
+
 
 def removeOutliers(df):
     Q1 = df.quantile(0.25)
@@ -400,7 +398,7 @@ def getHero(damage, defense, health, tier_dict):
             dist_same.append(h[0])
     return random.choice(dist_same)
     
-print(getHero(4, 3, 3, tier_dict()))
+
 f = open("hero_tier.txt", "w")
 f.write(str(tier_dict()))
 f.close()
@@ -731,7 +729,6 @@ for champion in champions:
     final_champ_dictionary[champion.name]['damage'] = get_damage_tier_1(champion)
     final_champ_dictionary[champion.name]['defense'] = get_defense_tier_1(champion)
     final_champ_dictionary[champion.name]['health'] = get_health_tier_1(champion)
-print(final_champ_dictionary)
 
 f = open('final_champ_dictionary.txt', 'w')
 f.write(str(final_champ_dictionary))
@@ -743,7 +740,7 @@ def getleague(damage, defense, health):
         a = final_champ_dictionary[champ]['damage']
         d = final_champ_dictionary[champ]['defense']
         h = final_champ_dictionary[champ]['health']
-        dis = (damage-a)**2+(defense-a)**2+(health-h)**2
+        dis = (damage-a)**2+(defense-d)**2+(health-h)**2
         champ_dis_list.append((champ, dis))
     sort_champ_dis_list = sorted(champ_dis_list, key=lambda x: x[1])
     choice_list = []
@@ -755,25 +752,27 @@ def getleague(damage, defense, health):
     return final_champion
 
 def userInput(poke_tier_dict):
-    # Instruction: You have 10 points in total. Please distribute them in the order of DAMAGE DEFENSE HEALTH.
-    # Each number should be separated by one space.
-    # Input example: 4 3 3
-    # Take in user input
-    #
+
+    # answer = input('Do you want to build your PERFECT squad? Type YES or QUIT')
+
     while True:
+        answer = input('Do you want to build your PERFECT squad? Type YES or QUIT')
+        if answer == 'QUIT':
+            break
         print("Instructions: You have 10 points in total. Please distribute them to DAMAGE DEFENSE HEALTH.")
         damage_in = int(input("Enter damage point: "))
         defense_in = int(input("Enter defense point: "))
         health_in = int(input("Enter health point: "))
-        try:
-            damage_in + defense_in + health_in == 10
-        except:
+        if damage_in + defense_in + health_in == 10:
+            pokemon = getPokemon(damage_in, defense_in, health_in, poke_tier_dict)
+            league = getleague(damage_in, defense_in, health_in)
+            hero = getHero(damage_in, defense_in, health_in, tier_dict())
+            print("Your PERFECT squad is: {}, {}, {}".format(pokemon, league, hero))
+        else:
             print("Please insert points that sum up to 10.")
             continue
-    pokemon = getPokemon(damage_in, defense_in, health_in, poke_tier_dict)
-    league = getleague(damage_in, defense_in, health_in)
-    hero = getHero(damage_in, defense_in, health_in, tier_dict())
-    print("Your PERFECT squad is: {}, {}, {}".format(pokemon, league, hero))
+        # answer = input('Do you want to build your PERFECT squad? Type YES or QUIT')
+        
     
 
 def main():
@@ -790,18 +789,12 @@ def main():
 
     # Calculate standard deviation
     damage_stats, defense_stats, health_stats = calcSd(cur, conn)
-    print(damage_stats, defense_stats, health_stats)
+    #print(damage_stats, defense_stats, health_stats)
 
     # Calculate tiers
     tier_dict = assignTier(cur, conn, damage_stats, defense_stats, health_stats)
-    
-    cur.execute("SELECT health from Poke_Tier")
-    tier_count = {1:0, 2:0, 3:0, 4:0, 5:0}
-    for row in cur.fetchall():
-        tier_count[row[0]] += 1
-    print(tier_count)
-    pokemon, league, hero = userInput(tier_dict)
-    print("Your PERFECT squad is: {}, {}, {}".format(pokemon, league, hero))
+
+    userInput(tier_dict)
 
 if __name__ == "__main__":
     main()
