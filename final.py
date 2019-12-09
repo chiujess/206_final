@@ -160,6 +160,9 @@ def assignTier(cur, conn, damage_stats, defense_stats, health_stats):
         tier_dict[name] = {"damage": damage_tier, "defense": defense_tier, "health": health_tier}
         cur.execute("INSERT INTO Poke_Tier (name, damage, health, defense) VALUES (?,?,?,?)", (name, damage_tier, health_tier, defense_tier))
     conn.commit()
+    f = open("poke_tier.txt", "w")
+    f.write(str(tier_dict))
+    f.close()
     return tier_dict
 
 def getPokemon(damage, defense, health, tier_dict):
@@ -751,7 +754,7 @@ def getleague(damage, defense, health):
 def userInput(poke_tier_dict):
 
     while True:
-        answer = input('Do you want to build your PERFECT squad? Type YES or QUIT')
+        answer = input('Do you want to build your PERFECT squad? Type YES or QUIT ')
         if answer == 'QUIT':
             break
         print("Instructions: You have 10 points in total. Please distribute them to DAMAGE DEFENSE HEALTH.")

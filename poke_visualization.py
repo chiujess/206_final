@@ -1,9 +1,24 @@
+import requests
+import json
+import pandas as pd
 import seaborn as sns
+import operator
+import random
+import matplotlib.pyplot as plt
 
-def drawBoxPlot(data):
-    boxplot = sns.boxplot(x=data)
-    boxplot.set_facecolor("red")
-    sns.plt.show()
+def dataToList(data):
+    poke_list = []
+    damage_list = []
+    defense_list = []
+    health_list = []
+    poke_stats = {}
+    for pokemon in data:
+        if pokemon["pokemon_name"] not in poke_list:
+            poke_list.append(pokemon["pokemon_name"])
+            damage_list.append(pokemon["base_attack"])
+            defense_list.append(pokemon["base_defense"])
+            health_list.append(pokemon["base_stamina"])
+    return damage_list, defense_list, health_list
 
 def getJsonAsList():
     url = "https://pokemon-go1.p.rapidapi.com/pokemon_stats.json"
@@ -17,10 +32,19 @@ def getJsonAsList():
     data = json.loads(response.text)
     return data
 
+def drawHist(data_name, data_list):
+    plt.hist(data_list, color='green', bins=150)
+    plt.title("Histogram of pokemon " + data_name)
+    plt.xlabel(data_name)
+    plt.ylabel("count")
+    plt.show()
+
 def main():
     poke_data = getJsonAsList()
-    poke_df = pd.DataFrame(poke_data, columns=["name", "damage", "defense", "health"])
-    poke_stats_df = poke_df.drop("name", axis=1)
-    drawBoxPlot(poke_df["damage"])
-    drawBoxPlot(poke_df["defense"])
-    drawBoxPlot(poke_df["health"])
+    damage_list, defense_list, health_list = dataToList(poke_data)
+    drawHist("final damage", damage_list)
+    drawHist("final defense", defense_list)
+    drawHist("final health", health_list)
+
+if if __name__ == "__main__":
+    main()
