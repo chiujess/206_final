@@ -756,7 +756,7 @@ def userInput(poke_tier_dict):
     # answer = input('Do you want to build your PERFECT squad? Type YES or QUIT')
 
     while True:
-        answer = input('Do you want to build your PERFECT squad? Type YES or QUIT')
+        answer = input('Do you want to build your PERFECT squad? Type YES or QUIT ')
         if answer == 'QUIT':
             break
         print("Instructions: You have 10 points in total. Please distribute them to DAMAGE DEFENSE HEALTH.")
