@@ -750,8 +750,6 @@ def getleague(damage, defense, health):
 
 def userInput(poke_tier_dict):
 
-    # answer = input('Do you want to build your PERFECT squad? Type YES or QUIT')
-
     while True:
         answer = input('Do you want to build your PERFECT squad? Type YES or QUIT')
         if answer == 'QUIT':
@@ -768,7 +766,7 @@ def userInput(poke_tier_dict):
         else:
             print("Please insert points that sum up to 10.")
             continue
-        # answer = input('Do you want to build your PERFECT squad? Type YES or QUIT')
+
         
     
 
