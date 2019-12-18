@@ -768,9 +768,7 @@ def userInput(poke_tier_dict):
             print("Your PERFECT squad is: {}, {}, {}".format(pokemon, league, hero))
         else:
             print("Please insert points that sum up to 10.")
-            continue
-
-        
+            continue        
     
 
 def main():
